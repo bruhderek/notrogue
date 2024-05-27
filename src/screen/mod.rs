@@ -17,13 +17,14 @@ impl Screen {
 }
 
 pub trait ScreenTrait {
-    fn on_render(&self, nc: &mut Notcurses, cli: &mut Plane) -> NotcursesResult<()> {
+    fn on_render(&self, _nc: &mut Notcurses, _cli: &mut Plane) -> NotcursesResult<()> {
         Ok(())
     }
-    fn on_press_key(&self, event: &Input, nc: &mut Notcurses, cli: &mut Plane) -> NotcursesResult<()> {
+    fn on_press_key(&self, _event: &Input, _nc: &mut Notcurses, _cli: &mut Plane) -> NotcursesResult<()> {
         Ok(())
     }
 }
 
+pub mod util;
 pub mod button;
 pub mod r#impl;

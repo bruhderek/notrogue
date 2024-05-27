@@ -7,15 +7,15 @@ pub mod game {
 
     thread_local! {
         pub static SCREENS: Vec<screen::Screen> = vec![
-            Screen::new(10, 10, Box::new(StartScreen { buttons: ButtonContainer {buttons: Vec::new()} }))
+            Screen::new(10, 10, Box::new(StartScreen::new()))
         ];
 
-        pub static CURRENT_SCREEN: RefCell<usize> = RefCell::new(0);
+        pub static CURRENT_SCREEN: RefCell<usize> = const { RefCell::new(0) };
     }
 
     pub fn initialize_game(nc: &mut Notcurses, cli: &mut Plane) -> NotcursesResult<()> {
         cli.erase();
-        nc.mice_enable(MiceEvents::All)?;
+        nc.mice_enable(MiceEvents::Button)?;
 
         Ok(())
     }
@@ -37,7 +37,6 @@ pub mod game {
             SCREENS.with(|screens| {
                 screens[CURRENT_SCREEN.with_borrow(|v| {*v})].methods.on_render(nc, cli).expect("render failed");
             });
-            cli.render()?;
         }
         Ok(())
     }

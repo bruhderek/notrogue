@@ -1,7 +1,7 @@
 use notcurses::sys::c_api::ncinput;
 use notcurses::Blitter::Pixel;
 use notcurses::Scale::Stretch;
-use notcurses::{Alpha, Channel, Input, Notcurses, NotcursesResult, Plane, Visual, VisualOptions};
+use notcurses::{Alpha, Channel, Notcurses, NotcursesResult, Plane, Visual, VisualOptions};
 
 pub fn create_bob(nc: &mut Notcurses, cli: &mut Plane) -> NotcursesResult<()> {
     let mut background = Visual::builder().build_from_file("resources/bob.png")?;
@@ -17,7 +17,7 @@ pub fn create_bob(nc: &mut Notcurses, cli: &mut Plane) -> NotcursesResult<()> {
     Ok(())
 }
 
-pub fn create_ui(_nc: &mut Notcurses, cli: &mut Plane, input: &mut ncinput) -> NotcursesResult<()> {
+pub fn create_ui(_nc: &mut Notcurses, cli: &mut Plane, _input: &mut ncinput) -> NotcursesResult<()> {
     let mut plane = cli.new_child_sized_at((24, 10), (10, 5))?;
     plane.set_bg((255, 0, 0));
     for i in 0..10 {
