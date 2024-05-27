@@ -7,4 +7,3 @@ edition = "2021"
 
 [dependencies]
 notcurses = "3.5.0"
-sixel-bytes = "0.2.3"

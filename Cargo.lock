@@ -118,12 +118,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "make-cmd"
-version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a8ca8afbe8af1785e09636acb5a41e08a765f5f0340568716c18a8700ba3c0d3"
-
-[[package]]
 name = "memchr"
 version = "2.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -248,25 +242,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0fda2ff0d084019ba4d7c6f371c95d8fd75ce3524c3cb8fb653a3023f6323e64"
 
 [[package]]
-name = "sixel-bytes"
-version = "0.2.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "45cad296a72571e80953823496e9a55caf893e264de9a7c5cfd29427fca720fc"
-dependencies = [
- "sixel-sys-static",
-]
-
-[[package]]
-name = "sixel-sys-static"
-version = "0.3.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2988846c5099382a880a7dd385d38b203a60430710a9c22e538d500e6908f4f9"
-dependencies = [
- "make-cmd",
- "pkg-config",
-]
-
-[[package]]
 name = "syn"
 version = "2.0.52"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -282,7 +257,6 @@ name = "test-notcurses"
 version = "0.1.0"
 dependencies = [
  "notcurses",
- "sixel-bytes",
 ]
 
 [[package]]
