@@ -1,6 +1,6 @@
 use notcurses::{Notcurses, NotcursesResult, Plane};
 
-pub fn fill_plane(nc: &mut Notcurses, cli: &mut Plane, width: u32, height: u32) -> NotcursesResult<()> {
+pub fn fill_plane(_nc: &mut Notcurses, cli: &mut Plane, width: u32, height: u32) -> NotcursesResult<()> {
     for i in 0..height {
         cli.putstr_at_xy(Some(0), Some(i), &" ".repeat(width as usize))?;
     }

@@ -1,9 +1,8 @@
-pub mod game {
     use std::{cell::RefCell};
 
     use notcurses::{Key, MiceEvents, Notcurses, NotcursesResult, Plane};
 
-    use crate::screen::{self, button::ButtonContainer, r#impl::startscreen::StartScreen, Screen};
+    use crate::screen::{self, r#impl::startscreen::StartScreen, Screen};
 
     thread_local! {
         pub static SCREENS: Vec<screen::Screen> = vec![
@@ -40,4 +39,3 @@ pub mod game {
         }
         Ok(())
     }
-}

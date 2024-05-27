@@ -1,4 +1,4 @@
-use game::game::start_game_loop;
+use game::start_game_loop;
 use notcurses::*;
 
 mod game;

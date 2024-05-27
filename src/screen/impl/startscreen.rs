@@ -1,4 +1,4 @@
-use std::{borrow::BorrowMut, cell::RefCell, ops::Add};
+use std::{cell::RefCell, ops::Add};
 
 use notcurses::{Key, NotcursesResult};
 
@@ -35,7 +35,7 @@ impl ScreenTrait for StartScreen {
         EVENT.with_borrow_mut(|v| {*v = event.to_string();});
         if event.is_key(Key::Button1) && event.is_press() {
             if let Some(xy) = get_mouse_xy(event) {
-                if let Some(i) = self.buttons.get_pressed_button(xy.0, xy.1) {
+                if let Some(_i) = self.buttons.get_pressed_button(xy.0, xy.1) {
                     COUNTER.with_borrow_mut(|v| {*v = v.add(1);});
                 }
             }
