@@ -1,41 +1,48 @@
-    use std::{cell::RefCell};
 
-    use notcurses::{Key, MiceEvents, Notcurses, NotcursesResult, Plane};
+use std::cell::RefCell;
 
-    use crate::screen::{self, r#impl::startscreen::StartScreen, Screen};
+use notcurses::{Key, MiceEvents, Notcurses, NotcursesResult, Plane};
 
-    thread_local! {
-        pub static SCREENS: Vec<screen::Screen> = vec![
-            Screen::new(10, 10, Box::new(StartScreen::new()))
-        ];
+use crate::screen::{self, r#impl::startscreen::StartScreen, Screen};
 
-        pub static CURRENT_SCREEN: RefCell<usize> = const { RefCell::new(0) };
-    }
+thread_local! {
+    pub static SCREENS: Vec<screen::Screen> = vec![
+        Screen::new(10, 10, Box::new(StartScreen::new()))
+    ];
 
-    pub fn initialize_game(nc: &mut Notcurses, cli: &mut Plane) -> NotcursesResult<()> {
-        cli.erase();
-        nc.mice_enable(MiceEvents::Button)?;
+    pub static CURRENT_SCREEN: RefCell<usize> = const { RefCell::new(0) };
+}
 
-        Ok(())
-    }
+pub fn initialize_game(nc: &mut Notcurses, cli: &mut Plane) -> NotcursesResult<()> {
+    cli.erase();
+    nc.mice_enable(MiceEvents::Button)?;
 
-    pub fn start_game_loop(nc: &mut Notcurses, cli: &mut Plane) -> NotcursesResult<()> {
-        initialize_game(nc, cli)?;
+    Ok(())
+}
 
-        loop {
-            let event = nc.poll_event()?;
-            if event.is_press() {
-                SCREENS.with(|screens| {
-                    screens[CURRENT_SCREEN.with_borrow(|v| {*v})].methods.on_press_key(&event, nc, cli).expect("press event failed");
-                });
-            }
-            if event.is_key(Key::End) && event.is_press() {
-                break;
-            }
-            cli.erase();
+pub fn start_game_loop(nc: &mut Notcurses, cli: &mut Plane) -> NotcursesResult<()> {
+    initialize_game(nc, cli)?;
+
+    loop {
+        let event = nc.poll_event()?;
+        if event.is_press() {
             SCREENS.with(|screens| {
-                screens[CURRENT_SCREEN.with_borrow(|v| {*v})].methods.on_render(nc, cli).expect("render failed");
+                screens[CURRENT_SCREEN.with_borrow(|v| *v)]
+                    .methods
+                    .on_press_key(&event, nc, cli)
+                    .expect("press event failed");
             });
         }
-        Ok(())
+        if event.is_key(Key::End) && event.is_press() {
+            break;
+        }
+        cli.erase();
+        SCREENS.with(|screens| {
+            screens[CURRENT_SCREEN.with_borrow(|v| *v)]
+                .methods
+                .on_render(nc, cli)
+                .expect("render failed");
+        });
     }
+    Ok(())
+}

@@ -34,7 +34,11 @@ impl Button {
         plane.set_bg(channel);
 
         fill_plane(nc, &mut plane, self.width, self.height)?;
-        plane.putstr_at_xy(Some((self.width - self.text.len() as u32) / 2), Some((self.height-1)/2), &self.text)?;
+        plane.putstr_at_xy(
+            Some((self.width - self.text.len() as u32) / 2),
+            Some((self.height - 1) / 2),
+            &self.text,
+        )?;
 
         Ok(plane)
     }
