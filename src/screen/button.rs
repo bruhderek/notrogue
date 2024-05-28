@@ -1,5 +1,7 @@
 use notcurses::{Alpha, Channel, Notcurses, NotcursesResult, Plane};
 
+use crate::resource::get_resource;
+
 use super::util::fill_plane;
 
 pub struct Button {
@@ -39,6 +41,8 @@ impl Button {
             Some((self.height - 1) / 2),
             &self.text,
         )?;
+
+        get_resource("arch".to_string()).borrow_mut().blit_plane(nc, &mut plane)?;
 
         Ok(plane)
     }

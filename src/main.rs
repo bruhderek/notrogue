@@ -1,6 +1,7 @@
 use game::start_game_loop;
 use notcurses::*;
 
+pub mod resource;
 mod game;
 mod screen;
 
