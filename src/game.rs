@@ -2,7 +2,10 @@ use std::cell::RefCell;
 
 use notcurses::{Key, MiceEvents, Notcurses, NotcursesResult, Plane};
 
-use crate::{resource::add_resources, screen::{self, r#impl::startscreen::StartScreen, Screen}};
+use crate::{
+    resource::add_resources,
+    screen::{self, r#impl::startscreen::StartScreen, Screen},
+};
 
 thread_local! {
     pub static SCREENS: Vec<screen::Screen> = vec![

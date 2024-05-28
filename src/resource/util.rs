@@ -1,6 +1,6 @@
-use notcurses::{Visual, VisualOptions};
 use notcurses::Blitter::Pixel;
 use notcurses::Scale::Stretch;
+use notcurses::{Visual, VisualOptions};
 
 pub fn configure_visual(v: &mut Visual) {
     let mut options = VisualOptions::default();

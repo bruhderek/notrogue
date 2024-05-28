@@ -1,8 +1,8 @@
 use game::start_game_loop;
 use notcurses::*;
 
-pub mod resource;
 mod game;
+pub mod resource;
 mod screen;
 
 fn main() -> NotcursesResult<()> {
