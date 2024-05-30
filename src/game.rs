@@ -3,13 +3,13 @@ use std::cell::RefCell;
 use notcurses::{Key, MiceEvents, Notcurses, NotcursesResult, Plane};
 
 use crate::{
-    resource::add_resources,
-    screen::{self, r#impl::startscreen::StartScreen, Screen},
+    notrogue::NotRogue, resource::add_resources, screen::{self, r#impl::startscreen::StartScreen, Screen}
 };
 
 thread_local! {
     pub static SCREENS: Vec<screen::Screen> = vec![
-        Screen::new(10, 10, Box::new(StartScreen::new()))
+        Screen::new(10, 10, Box::new(StartScreen::new())),
+        Screen::new(10, 10, Box::new(NotRogue::new()))
     ];
 
     pub static CURRENT_SCREEN: RefCell<usize> = const { RefCell::new(0) };

@@ -42,10 +42,6 @@ impl Button {
             &self.text,
         )?;
 
-        get_resource("arch".to_string())
-            .borrow_mut()
-            .blit_plane(nc, &mut plane)?;
-
         Ok(plane)
     }
 }

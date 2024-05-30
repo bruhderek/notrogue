@@ -2,6 +2,7 @@ use game::start_game_loop;
 use notcurses::*;
 
 mod game;
+pub mod notrogue;
 pub mod resource;
 mod screen;
 

@@ -2,11 +2,11 @@ use std::{cell::RefCell, ops::Add};
 
 use notcurses::{Key, NotcursesResult};
 
-use crate::screen::{
+use crate::{game::CURRENT_SCREEN, screen::{
     button::{Button, ButtonContainer},
     util::get_mouse_xy,
     ScreenTrait,
-};
+}};
 
 thread_local! {
     pub static COUNTER: RefCell<u32> = const { RefCell::new(0) };
@@ -22,8 +22,7 @@ impl StartScreen {
         StartScreen {
             buttons: ButtonContainer {
                 buttons: vec![
-                    Button::new(2, 3, 20, 10, "PLAY".to_string()),
-                    Button::new(5, 5, 20, 10, "lsk".to_string()),
+                    Button::new(2, 3, 20, 7, "PLAY".to_string()),
                 ],
             },
         }
@@ -58,6 +57,9 @@ impl ScreenTrait for StartScreen {
                 if let Some(_i) = self.buttons.get_pressed_button(xy.0, xy.1) {
                     COUNTER.with_borrow_mut(|v| {
                         *v = v.add(1);
+                    });
+                    CURRENT_SCREEN.with_borrow_mut(|v| {
+                        *v = 1;
                     });
                 }
             }
