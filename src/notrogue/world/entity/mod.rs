@@ -1,6 +1,6 @@
 pub enum EntityType {
     PLAYER,
-    DUMMY
+    DUMMY,
 }
 
 pub struct EntityData {
@@ -11,6 +11,10 @@ pub struct EntityData {
 
 impl EntityData {
     pub fn new(entity_type: EntityType, pos_x: i32, pos_y: i32) -> Self {
-        EntityData { entity_type, pos_x, pos_y }
+        EntityData {
+            entity_type,
+            pos_x,
+            pos_y,
+        }
     }
 }

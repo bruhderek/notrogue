@@ -2,11 +2,14 @@ use std::{cell::RefCell, ops::Add, sync::RwLock};
 
 use notcurses::{Key, NotcursesResult};
 
-use crate::{game::{set_screen, CURRENT_SCREEN}, screen::{
-    button::{Button, ButtonContainer},
-    util::get_mouse_xy,
-    ScreenTrait,
-}};
+use crate::{
+    game::{set_screen, CURRENT_SCREEN},
+    screen::{
+        button::{Button, ButtonContainer},
+        util::get_mouse_xy,
+        ScreenTrait,
+    },
+};
 
 thread_local! {
     pub static COUNTER: RefCell<u32> = const { RefCell::new(0) };
@@ -21,9 +24,7 @@ impl StartScreen {
     pub fn new() -> Self {
         StartScreen {
             buttons: ButtonContainer {
-                buttons: vec![
-                    Button::new(2, 3, 20, 7, "PLAY".to_string()),
-                ],
+                buttons: vec![Button::new(2, 3, 20, 7, "PLAY".to_string())],
             },
         }
     }

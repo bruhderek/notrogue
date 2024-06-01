@@ -1,9 +1,15 @@
-use std::{borrow::{Borrow, BorrowMut}, cell::{Cell, RefCell}};
+use std::{
+    borrow::{Borrow, BorrowMut},
+    cell::{Cell, RefCell},
+};
 
 use lazy_static::lazy_static;
 use notcurses::{Key, MiceEvents, Notcurses, NotcursesResult, Plane};
 
-use crate::{notrogue::screen::NotRogueScreen, resource::add_resources, screen::{self, r#impl::startscreen::StartScreen, Screen, ScreenTrait}
+use crate::{
+    notrogue::screen::NotRogueScreen,
+    resource::add_resources,
+    screen::{self, r#impl::startscreen::StartScreen, Screen, ScreenTrait},
 };
 
 lazy_static! {

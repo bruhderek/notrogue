@@ -2,7 +2,10 @@ use std::{borrow::BorrowMut, cell::RefCell, thread::LocalKey};
 
 use notcurses::{NotcursesError, NotcursesResult};
 
-use crate::{resource::get_resource, screen::{button::ButtonContainer, ScreenTrait}};
+use crate::{
+    resource::get_resource,
+    screen::{button::ButtonContainer, ScreenTrait},
+};
 
 use super::{util::get_center_xy, NotRogue};
 
@@ -17,7 +20,9 @@ pub struct NotRogueScreen {
 impl NotRogueScreen {
     pub fn new() -> Self {
         NotRogueScreen {
-            buttons: ButtonContainer { buttons: Vec::new() },
+            buttons: ButtonContainer {
+                buttons: Vec::new(),
+            },
         }
     }
 }
@@ -30,23 +35,29 @@ impl ScreenTrait for NotRogueScreen {
     fn reset_data(&self) {
         GAME.set(None);
     }
-    
-    fn on_render(&self, nc: &mut notcurses::Notcurses, cli: &mut notcurses::Plane) -> notcurses::NotcursesResult<()> {
+
+    fn on_render(
+        &self,
+        nc: &mut notcurses::Notcurses,
+        cli: &mut notcurses::Plane,
+    ) -> notcurses::NotcursesResult<()> {
         GAME.with_borrow(|game| -> NotcursesResult<()> {
             if let Some(game) = game {
                 game.on_render(nc, cli)?;
             }
-            Err(NotcursesError::Message(String::from("game is not initialized")))
+            Err(NotcursesError::Message(String::from(
+                "game is not initialized",
+            )))
         })?;
         Ok(())
     }
 
     fn on_press_key(
-            &self,
-            _event: &notcurses::Input,
-            _nc: &mut notcurses::Notcurses,
-            _cli: &mut notcurses::Plane,
-        ) -> notcurses::NotcursesResult<()> {
+        &self,
+        _event: &notcurses::Input,
+        _nc: &mut notcurses::Notcurses,
+        _cli: &mut notcurses::Plane,
+    ) -> notcurses::NotcursesResult<()> {
         Ok(())
     }
 }
