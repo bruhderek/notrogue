@@ -7,7 +7,7 @@ impl Renderer {
 
     pub fn on_render(
         &self,
-        nc: &mut notcurses::Notcurses,
+        _nc: &mut notcurses::Notcurses,
         cli: &mut notcurses::Plane,
     ) -> notcurses::NotcursesResult<()> {
         cli.render();

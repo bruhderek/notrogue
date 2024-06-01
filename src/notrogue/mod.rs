@@ -1,4 +1,4 @@
-use notcurses::Plane;
+
 use renderer::Renderer;
 use world::World;
 
@@ -24,8 +24,8 @@ impl NotRogue {
 
     fn on_render(
         &self,
-        nc: &mut notcurses::Notcurses,
-        cli: &mut notcurses::Plane,
+        _nc: &mut notcurses::Notcurses,
+        _cli: &mut notcurses::Plane,
     ) -> notcurses::NotcursesResult<()> {
         // self.renderer.on_render(nc, cli);
         Ok(())

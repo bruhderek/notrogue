@@ -1,9 +1,9 @@
-use std::{cell::RefCell, ops::Add, sync::RwLock};
+use std::{cell::RefCell};
 
 use notcurses::{Key, NotcursesResult};
 
 use crate::{
-    game::{set_screen, CURRENT_SCREEN},
+    game::{set_screen},
     screen::{
         button::{Button, ButtonContainer},
         util::get_mouse_xy,

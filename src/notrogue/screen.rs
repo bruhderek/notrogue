@@ -1,20 +1,25 @@
-use std::{borrow::BorrowMut, cell::RefCell, thread::LocalKey};
+use std::{cell::RefCell};
 
 use notcurses::{NotcursesError, NotcursesResult};
 
 use crate::{
-    resource::get_resource,
     screen::{button::ButtonContainer, ScreenTrait},
 };
 
-use super::{util::get_center_xy, NotRogue};
+use super::{NotRogue};
 
 thread_local! {
-    pub static GAME: RefCell<Option<NotRogue>> = RefCell::new(None);
+    pub static GAME: RefCell<Option<NotRogue>> = const { RefCell::new(None) };
 }
 
 pub struct NotRogueScreen {
     buttons: ButtonContainer,
+}
+
+impl Default for NotRogueScreen {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl NotRogueScreen {

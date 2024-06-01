@@ -1,6 +1,6 @@
 use notcurses::{Alpha, Channel, Notcurses, NotcursesResult, Plane};
 
-use crate::resource::get_resource;
+
 
 use super::util::fill_plane;
 
