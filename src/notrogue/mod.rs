@@ -1,37 +1,26 @@
 use notcurses::Plane;
-use util::get_center_xy;
+use renderer::Renderer;
+use world::World;
 
-use crate::{resource::get_resource, screen::{button::ButtonContainer, ScreenTrait}};
-
+pub mod screen;
 mod util;
 mod world;
+mod renderer;
 
-pub struct NotRogue {
-    buttons: ButtonContainer,
+struct NotRogue {
+    world: World,
+    renderer: Renderer
 }
 
 impl NotRogue {
     pub fn new() -> Self {
-        NotRogue {
-            buttons: ButtonContainer { buttons: Vec::new() }
-        }
+        let mut world = World::new();
+        world.initialize();
+        NotRogue { world, renderer: Renderer::new() }
     }
-}
 
-impl ScreenTrait for NotRogue {
     fn on_render(&self, nc: &mut notcurses::Notcurses, cli: &mut notcurses::Plane) -> notcurses::NotcursesResult<()> {
-        let mut player = cli.new_child_sized_at((2, 1), get_center_xy(cli))?;
-        get_resource("arch".to_string()).borrow_mut().blit_plane(nc, &mut player)?;
-        cli.render()?;
-        Ok(())
-    }
-
-    fn on_press_key(
-            &self,
-            _event: &notcurses::Input,
-            _nc: &mut notcurses::Notcurses,
-            _cli: &mut notcurses::Plane,
-        ) -> notcurses::NotcursesResult<()> {
+        // self.renderer.on_render(nc, cli);
         Ok(())
     }
 }

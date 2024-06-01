@@ -7,7 +7,7 @@ pub struct Screen {
 }
 
 impl Screen {
-    pub fn new(width: u32, height: u32, methods: Box<dyn ScreenTrait>) -> Self {
+    pub const fn new(width: u32, height: u32, methods: Box<dyn ScreenTrait>) -> Self {
         Screen {
             width,
             height,
@@ -16,7 +16,9 @@ impl Screen {
     }
 }
 
-pub trait ScreenTrait {
+pub trait ScreenTrait: Sync {
+    fn on_create(&self);
+    fn reset_data(&self);
     fn on_render(&self, _nc: &mut Notcurses, _cli: &mut Plane) -> NotcursesResult<()> {
         Ok(())
     }

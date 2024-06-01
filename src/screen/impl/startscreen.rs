@@ -1,8 +1,8 @@
-use std::{cell::RefCell, ops::Add};
+use std::{cell::RefCell, ops::Add, sync::RwLock};
 
 use notcurses::{Key, NotcursesResult};
 
-use crate::{game::CURRENT_SCREEN, screen::{
+use crate::{game::{set_screen, CURRENT_SCREEN}, screen::{
     button::{Button, ButtonContainer},
     util::get_mouse_xy,
     ScreenTrait,
@@ -30,6 +30,10 @@ impl StartScreen {
 }
 
 impl ScreenTrait for StartScreen {
+    fn on_create(&self) {}
+
+    fn reset_data(&self) {}
+
     fn on_render(
         &self,
         nc: &mut notcurses::Notcurses,
@@ -55,12 +59,7 @@ impl ScreenTrait for StartScreen {
         if event.is_key(Key::Button1) && event.is_press() {
             if let Some(xy) = get_mouse_xy(event) {
                 if let Some(_i) = self.buttons.get_pressed_button(xy.0, xy.1) {
-                    COUNTER.with_borrow_mut(|v| {
-                        *v = v.add(1);
-                    });
-                    CURRENT_SCREEN.with_borrow_mut(|v| {
-                        *v = 1;
-                    });
+                    set_screen(1);
                 }
             }
         }

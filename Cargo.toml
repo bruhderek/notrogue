@@ -7,3 +7,5 @@ edition = "2021"
 
 [dependencies]
 notcurses = "3.5.0"
+lazy_static = "1.4.0"
+legion = "0.4.0"
