@@ -1,11 +1,16 @@
-pub static TILE_EMPTY: TileId = usize::MAX;
-
 static TILES_BY_ID: &[Tile] = &[Tile::new("arch", Some("arch"), None)];
 
+#[repr(usize)]
+#[derive(PartialEq, Clone, Copy)]
+pub enum TileId {
+    ARCH = 0,
+    EMPTY = usize::MAX,
+}
+
 pub fn tile_by_id(id: TileId) -> Option<&'static Tile> {
-    if id != TILE_EMPTY {
-        if id < TILES_BY_ID.len() {
-            Some(&TILES_BY_ID[id])
+    if id != TileId::EMPTY {
+        if (id as usize) < TILES_BY_ID.len() {
+            Some(&TILES_BY_ID[id as usize])
         } else {
             None
         }
@@ -14,11 +19,10 @@ pub fn tile_by_id(id: TileId) -> Option<&'static Tile> {
     }
 }
 
-pub type TileId = usize;
 pub struct Tile {
-    id: &'static str,
-    texture: Option<&'static str>,
-    methods: Option<Box<dyn TileTrait>>,
+    pub id: &'static str,
+    pub texture: Option<&'static str>,
+    pub methods: Option<Box<dyn TileTrait>>,
 }
 
 impl Tile {

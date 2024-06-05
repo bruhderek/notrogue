@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use game::start_game_loop;
 use notcurses::*;
 

@@ -2,11 +2,9 @@ use std::{cell::RefCell};
 
 use notcurses::{NotcursesError, NotcursesResult};
 
-use crate::{
-    screen::{button::ButtonContainer, ScreenTrait},
-};
+use crate::screen::{button::ButtonContainer, ScreenTrait};
 
-use super::{NotRogue};
+use super::NotRogue;
 
 thread_local! {
     pub static GAME: RefCell<Option<NotRogue>> = const { RefCell::new(None) };
@@ -46,13 +44,13 @@ impl ScreenTrait for NotRogueScreen {
         nc: &mut notcurses::Notcurses,
         cli: &mut notcurses::Plane,
     ) -> notcurses::NotcursesResult<()> {
-        GAME.with_borrow(|game| -> NotcursesResult<()> {
+        GAME.with_borrow_mut(|game| -> NotcursesResult<()> {
             if let Some(game) = game {
                 game.on_render(nc, cli)?;
+                Ok(())
+            } else {
+                Err(NotcursesError::Message(String::from("game is not initialized",)))
             }
-            Err(NotcursesError::Message(String::from(
-                "game is not initialized",
-            )))
         })?;
         Ok(())
     }
@@ -63,6 +61,7 @@ impl ScreenTrait for NotRogueScreen {
         _nc: &mut notcurses::Notcurses,
         _cli: &mut notcurses::Plane,
     ) -> notcurses::NotcursesResult<()> {
+        
         Ok(())
     }
 }

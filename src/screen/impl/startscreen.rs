@@ -24,7 +24,7 @@ impl StartScreen {
     pub fn new() -> Self {
         StartScreen {
             buttons: ButtonContainer {
-                buttons: vec![Button::new(2, 3, 20, 7, "PLAY".to_string())],
+                buttons: vec![Button::new(0, 3, 20, 7, "PLAY".to_string())],
             },
         }
     }
