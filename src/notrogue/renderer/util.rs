@@ -1,6 +1,6 @@
 use notcurses::{Notcurses, NotcursesResult, Plane};
 
-use crate::{notrogue::{world::{tile::Tile, World}, NotRogue}, resource::get_resource};
+use crate::{notrogue::{world::{tile::Tile, World}}, resource::get_resource};
 
 pub fn get_center_pos(cli: &mut Plane) -> (u32, u32) {
     ((cli.size().w() as u32 / 2-1) / 2, (cli.size().h() as u32-1) / 2)

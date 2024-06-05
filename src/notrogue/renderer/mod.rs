@@ -1,6 +1,6 @@
 use util::{get_world_pos, render_block};
 
-use super::{world::World, NotRogue};
+use super::{world::World};
 
 mod util;
 
