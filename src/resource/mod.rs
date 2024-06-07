@@ -5,23 +5,19 @@ use notcurses::Visual;
 use self::util::configure_visual;
 
 mod util;
+pub mod resources;
 
 thread_local! {
-    pub static RESOURCES: RefCell<HashMap<String, Box<dyn LoadableResource<Visual>>>> = RefCell::new(HashMap::new());
+    pub static RESOURCES: RefCell<HashMap<&'static str, Box<dyn LoadableResource<Visual>>>> = RefCell::new(HashMap::new());
 }
 
-pub fn add_resources() {
-    RESOURCES.with_borrow_mut(|resources| {
-        resources.insert(
-            "arch".to_string(),
-            Box::new(LoadableVisual::new("resources/arch.png".to_string())),
-        );
-    });
+pub fn static_resource(name: &'static str) -> &'static RefCell<Visual> {
+    get_resource(name.to_string())
 }
 
 pub fn get_resource(name: String) -> &'static RefCell<Visual> {
     RESOURCES.with_borrow_mut(|resources| {
-        if let Some(x) = resources.get_mut(&name) {
+        if let Some(x) = resources.get_mut(name.as_str()) {
             return x.get();
         }
         panic!("resource does not exist: {name}");
@@ -39,9 +35,9 @@ pub struct LoadableVisual {
 }
 
 impl LoadableVisual {
-    fn new(image: String) -> Self {
+    fn new(image: &'static str) -> Self {
         LoadableVisual {
-            image,
+            image: image.to_string(),
             visual: None,
         }
     }

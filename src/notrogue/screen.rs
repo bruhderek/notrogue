@@ -49,7 +49,19 @@ impl ScreenTrait for NotRogueScreen {
                 game.on_render(nc, cli)?;
                 Ok(())
             } else {
-                Err(NotcursesError::Message(String::from("game is not initialized",)))
+                Err(NotcursesError::Message(String::from("game is not initialized")))
+            }
+        })?;
+        Ok(())
+    }
+
+    fn on_update(&self) -> NotcursesResult<()> {
+        GAME.with_borrow_mut(|game| -> NotcursesResult<()> {
+            if let Some(game) = game {
+                game.on_update()?;
+                Ok(())
+            } else {
+                Err(NotcursesError::Message(String::from("game is not initialized")))
             }
         })?;
         Ok(())
@@ -57,11 +69,18 @@ impl ScreenTrait for NotRogueScreen {
 
     fn on_press_key(
         &self,
-        _event: &notcurses::Input,
-        _nc: &mut notcurses::Notcurses,
-        _cli: &mut notcurses::Plane,
+        event: &notcurses::Input,
+        nc: &mut notcurses::Notcurses,
+        cli: &mut notcurses::Plane,
     ) -> notcurses::NotcursesResult<()> {
-        
+        GAME.with_borrow_mut(|game| {
+            if let Some(game) = game {
+                game.on_press_key(event, nc, cli)?;
+                Ok(())
+            } else {
+                Err(NotcursesError::Message(String::from("game is not initialized",)))
+            }
+        })?;
         Ok(())
     }
 }

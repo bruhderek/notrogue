@@ -1,10 +1,12 @@
 use chunk::{Chunk, ChunkManager};
 use entity::{EntityData, EntityType};
+use player::controller::ControllerMessage;
 use tile::{Tile, TileId};
 
 pub mod chunk;
 pub mod entity;
 pub mod tile;
+pub mod player;
 
 pub struct World {
     pub ecs_world: legion::World,
@@ -42,7 +44,14 @@ impl World {
         self.chunk_manager.set_tile(x, y, tile);
     }
 
-    pub fn get_player(&mut self) -> EntityData {
-        *self.ecs_world.entry(self.player_entity.unwrap()).unwrap().get_component::<EntityData>().unwrap()
+    pub fn get_player(&mut self) -> &mut EntityData {
+        self.ecs_world.entry(self.player_entity.unwrap()).unwrap().into_component_mut::<EntityData>().unwrap()
+    }
+
+    pub fn process_player_message(&mut self, message: ControllerMessage) {
+        match message {
+            ControllerMessage::Move(x, y) => { self.get_player().pos_x += x; self.get_player().pos_y += y; },
+            ControllerMessage::Teleport(x, y) => todo!(),
+        }
     }
 }

@@ -22,6 +22,9 @@ pub trait ScreenTrait: Sync {
     fn on_render(&self, _nc: &mut Notcurses, _cli: &mut Plane) -> NotcursesResult<()> {
         Ok(())
     }
+    fn on_update(&self) -> NotcursesResult<()> {
+        Ok(())
+    }
     fn on_press_key(
         &self,
         _event: &Input,

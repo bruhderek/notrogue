@@ -1,6 +1,7 @@
 
+use notcurses::{Key};
 use renderer::Renderer;
-use world::{tile::TileId, World};
+use world::{player::controller::PlayerController, tile::TileId, World};
 
 mod renderer;
 pub mod screen;
@@ -10,6 +11,7 @@ mod world;
 struct NotRogue {
     world: World,
     renderer: Renderer,
+    controller: PlayerController
 }
 
 impl NotRogue {
@@ -21,6 +23,7 @@ impl NotRogue {
         NotRogue {
             world,
             renderer: Renderer::new(),
+            controller: PlayerController::new()
         }
     }
 
@@ -33,16 +36,25 @@ impl NotRogue {
         nc: &mut notcurses::Notcurses,
         cli: &mut notcurses::Plane,
     ) -> notcurses::NotcursesResult<()> {
-        self.renderer.on_render(&mut self.world, nc, cli)?;
+        self.renderer.on_render(&mut self.world, &mut self.controller, nc, cli)?;
+        Ok(())
+    }
+
+    fn on_update(&mut self) -> notcurses::NotcursesResult<()> {
+        let messages = self.controller.on_update();
+        for message in messages {
+            self.world.process_player_message(message);
+        }
         Ok(())
     }
 
     fn on_press_key(
-        &self,
-        _event: &notcurses::Input,
+        &mut self,
+        event: &notcurses::Input,
         _nc: &mut notcurses::Notcurses,
         _cli: &mut notcurses::Plane,
     ) -> notcurses::NotcursesResult<()> {
+        self.controller.on_press_key(event);
         Ok(())
     }
 }
