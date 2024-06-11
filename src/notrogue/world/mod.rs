@@ -1,3 +1,5 @@
+use log::info;
+
 use chunk::{Chunk, ChunkManager};
 use entity::{EntityData, EntityType};
 use player::controller::ControllerMessage;
@@ -50,8 +52,12 @@ impl World {
 
     pub fn process_player_message(&mut self, message: ControllerMessage) {
         match message {
-            ControllerMessage::Move(x, y) => { self.get_player().pos_x += x; self.get_player().pos_y += y; },
-            ControllerMessage::Teleport(x, y) => todo!(),
+            ControllerMessage::Move(x, y) => {
+                self.get_player().pos_x += x;
+                self.get_player().pos_y += y;
+                info!("player moved ({}, {})", x, y);
+            },
+            ControllerMessage::Teleport(_x, _y) => todo!(),
         }
     }
 }

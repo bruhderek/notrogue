@@ -1,9 +1,10 @@
 use std::ops::Add;
 
 use notcurses::{Channel, NotcursesError, Plane};
-use util::{get_center_pos, get_screen_pos, get_world_pos, is_in_bounds, render_block, render_resource};
 
-use crate::resource::{get_resource, static_resource};
+use util::{get_center_pos, get_screen_pos, get_world_pos, is_in_bounds, render_block};
+
+use crate::resource::get_resource;
 
 use super::world::{player::controller::{Direction, PlayerController}, World};
 
@@ -29,14 +30,14 @@ impl Renderer {
         Ok(())
     }
 
-    fn render_debug(&self, world: &mut World, nc: &mut notcurses::Notcurses, cli: &mut notcurses::Plane, planes: &mut Vec<Plane>) -> notcurses::NotcursesResult<()> {
+    fn render_debug(&self, _world: &mut World, _nc: &mut notcurses::Notcurses, cli: &mut notcurses::Plane, _planes: &mut Vec<Plane>) -> notcurses::NotcursesResult<()> {
         let center_pos = get_center_pos(cli);
         cli.putstr_at_xy(Some(0), Some(0), (center_pos.0.to_string() + " " + &center_pos.1.to_string()).as_str())?;
         cli.putstr_at_xy(Some(0), Some(1), (cli.size().w().to_string() + " " + &cli.size().h().to_string()).as_str())?;
         Ok(())
     }
 
-    fn render_player_movement(&self, world: &mut World, controller: &mut PlayerController, nc: &mut notcurses::Notcurses, cli: &mut notcurses::Plane, planes: &mut Vec<Plane>) -> notcurses::NotcursesResult<()> {
+    fn render_player_movement(&self, world: &mut World, controller: &mut PlayerController, _nc: &mut notcurses::Notcurses, cli: &mut notcurses::Plane, planes: &mut Vec<Plane>) -> notcurses::NotcursesResult<()> {
         let mut current_pos = (world.get_player().pos_x, world.get_player().pos_y);
         for a in &controller.steps {
             match *a {
@@ -70,19 +71,19 @@ impl Renderer {
         controller: &mut PlayerController,
         nc: &mut notcurses::Notcurses,
         cli: &mut notcurses::Plane,
-    ) -> notcurses::NotcursesResult<()> {
+    ) -> notcurses::NotcursesResult<Vec<Plane>> {
         let mut planes = Vec::new();
 
-        self.render_blocks(world, nc, cli, &mut planes)?;
         self.render_player_movement(world, controller, nc, cli, &mut planes)?;
+        self.render_blocks(world, nc, cli, &mut planes)?;
 
         let center = get_center_pos(cli);
         let mut p = cli.new_child_sized_at((2, 1), (center.0*2, center.1))?;
         get_resource("knight".to_string()).borrow_mut().blit_plane(nc, &mut p)?;
+        planes.push(p);
 
-        self.render_debug(world, nc, cli, &mut planes)?;
+        // self.render_debug(world, nc, cli, &mut planes)?;
 
-        cli.render()?;
-        Ok(())
+        Ok(planes)
     }
 }

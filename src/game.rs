@@ -3,11 +3,13 @@ use std::{
 };
 
 use lazy_static::lazy_static;
+use log::{LevelFilter, set_logger};
 use notcurses::{Key, MiceEvents, Notcurses, NotcursesResult, Plane};
 
 use crate::{
     notrogue::screen::NotRogueScreen, resource::resources::add_resources, screen::{r#impl::startscreen::StartScreen, util::fill_plane, Screen, ScreenTrait}
 };
+use crate::notrogue::gui::logger::LogMemory;
 
 lazy_static! {
     pub static ref SCREENS: &'static [Screen] = Box::leak(Box::new([
@@ -30,6 +32,12 @@ thread_local! {
 }
 
 pub fn initialize_game(nc: &mut Notcurses, cli: &mut Plane) -> NotcursesResult<()> {
+    // logs
+    if let Err(_) = set_logger(&LogMemory).map(|()| log::set_max_level(LevelFilter::Info)) {
+        println!("Failed to set logger");
+    }
+
+    // notcurses
     cli.erase();
     add_resources();
     nc.mice_enable(MiceEvents::Button)?;

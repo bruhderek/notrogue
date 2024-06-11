@@ -1,5 +1,4 @@
-
-use notcurses::{Key};
+use gui::{Gui, GuiContainer, logger::Logger};
 use renderer::Renderer;
 use world::{player::controller::PlayerController, tile::TileId, World};
 
@@ -7,11 +6,13 @@ mod renderer;
 pub mod screen;
 mod util;
 mod world;
+pub mod gui;
 
 struct NotRogue {
     world: World,
     renderer: Renderer,
-    controller: PlayerController
+    controller: PlayerController,
+    guis: GuiContainer
 }
 
 impl NotRogue {
@@ -23,7 +24,8 @@ impl NotRogue {
         NotRogue {
             world,
             renderer: Renderer::new(),
-            controller: PlayerController::new()
+            controller: PlayerController::new(),
+            guis: GuiContainer { guis: vec![Gui::new(0, 0, 40, 10, Box::new(Logger {}))] }
         }
     }
 
@@ -36,7 +38,10 @@ impl NotRogue {
         nc: &mut notcurses::Notcurses,
         cli: &mut notcurses::Plane,
     ) -> notcurses::NotcursesResult<()> {
-        self.renderer.on_render(&mut self.world, &mut self.controller, nc, cli)?;
+        let _0 = self.renderer.on_render(&mut self.world, &mut self.controller, nc, cli)?;
+        let _1 = self.guis.render_all(nc, cli)?;
+
+        cli.render()?;
         Ok(())
     }
 
